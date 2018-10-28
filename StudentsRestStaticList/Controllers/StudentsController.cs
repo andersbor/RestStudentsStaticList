@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using StudentsRestStaticList.model;
@@ -9,31 +10,41 @@ namespace StudentsRestStaticList.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private static readonly List<Student> Students = new List<Student>();
-        private static int _nextId = 4;
+        private static  List<Student> _students;
+        private static int _nextId;
 
         static StudentsController()
         {
-            Student s1 = new Student { Id=1, Name = "Abraham", Address = "Roskilde", Semester = 3 };
-            Student s2 = new Student { Id=2, Name = "Benjamin", Address = "Copenhagen", Semester = 3 };
-            Student s3 = new Student { Id=3, Name = "Carl", Address = "Roskilde", Semester = 2 };
-            Students.Add(s1);
-            Students.Add(s2);
-            Students.Add(s3);
+            Initialize();
+        }
+
+        // For testing
+        public void ReInitialize() {  Initialize();}
+
+        private static void Initialize()
+        {
+            _students = new List<Student>();
+            Student s1 = new Student { Id = 1, Name = "Abraham", Address = "Roskilde", Semester = 3 };
+            Student s2 = new Student { Id = 2, Name = "Benjamin", Address = "Copenhagen", Semester = 3 };
+            Student s3 = new Student { Id = 3, Name = "Carl", Address = "Roskilde", Semester = 2 };
+            _students.Add(s1);
+            _students.Add(s2);
+            _students.Add(s3);
+            _nextId = 4;
         }
 
         // GET: api/Students
         [HttpGet]
         public IEnumerable<Student> Get()
         {
-            return Students;
+            return _students;
         }
 
         // GET: api/Students/5
         [HttpGet("{id}")]
         public Student Get(int id)
         {
-            return Students.FirstOrDefault(student => student.Id == id);
+            return _students.FirstOrDefault(student => student.Id == id);
         }
 
         // POST: api/Students
@@ -42,7 +53,7 @@ namespace StudentsRestStaticList.Controllers
         {
             value.Id = _nextId;
             _nextId++;
-            Students.Add(value);
+            _students.Add(value);
             return value;
         }
 
@@ -50,7 +61,7 @@ namespace StudentsRestStaticList.Controllers
         [HttpPut("{id}")]
         public Student Put(int id, [FromBody] Student value)
         {
-            Student st = Students.FirstOrDefault(student => student.Id == id);
+            Student st = _students.FirstOrDefault(student => student.Id == id);
             if (st == null) return null;
             st.Name = value.Name;
             st.Address = value.Address;
@@ -62,7 +73,7 @@ namespace StudentsRestStaticList.Controllers
         [HttpDelete("{id}")]
         public int Delete(int id)
         {
-            int howMany = Students.RemoveAll(student => student.Id == id);
+            int howMany = _students.RemoveAll(student => student.Id == id);
             return howMany;
         }
     }
