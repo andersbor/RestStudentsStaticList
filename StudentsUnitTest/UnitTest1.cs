@@ -30,7 +30,7 @@ namespace StudentsUnitTest
                 Semester = 4
             };
             Student stud = _controller.Post(newStudent);
-            Assert.AreEqual(4, stud.Id);
+            Assert.AreEqual(400, stud.Id);
         }
 
         [TestMethod]
