@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using StudentsRestStaticList.model;
@@ -10,7 +9,7 @@ namespace StudentsRestStaticList.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private static  List<Student> _students;
+        private static List<Student> _students;
         private static int _nextId;
 
         static StudentsController()
@@ -19,17 +18,20 @@ namespace StudentsRestStaticList.Controllers
         }
 
         // For testing
-        public void ReInitialize() {  Initialize();}
+        public void ReInitialize()
+        {
+            Initialize();
+        }
 
         private static void Initialize()
         {
-            _students = new List<Student>();
-            Student s1 = new Student { Id = 1, Name = "Abraham", Address = "Roskilde", Semester = 3 };
-            Student s2 = new Student { Id = 2, Name = "Benjamin", Address = "Copenhagen", Semester = 3 };
-            Student s3 = new Student { Id = 3, Name = "Carl", Address = "Roskilde", Semester = 2 };
-            _students.Add(s1);
-            _students.Add(s2);
-            _students.Add(s3);
+            _students = new List<Student>
+            {
+                new Student {Id = 1, Name = "Abraham", Address = "Roskilde", Semester = 3},
+                new Student { Id = 2, Name = "Benjamin", Address = "Copenhagen", Semester = 3 },
+                new Student { Id = 3, Name = "Carl C", Address = "Roskilde", Semester = 2 }
+                //new Student { Id = 4, Name = "Dennis", Address = "Roskilde", Semester = 3 }
+            };
             _nextId = 4;
         }
 

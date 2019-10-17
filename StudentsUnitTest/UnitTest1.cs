@@ -21,6 +21,19 @@ namespace StudentsUnitTest
         }
 
         [TestMethod]
+        public void TestPost()
+        {
+            Student newStudent = new Student
+            {
+                Name = "Dennis",
+                Address = "Copenhagen",
+                Semester = 4
+            };
+            Student stud = _controller.Post(newStudent);
+            Assert.AreEqual(4, stud.Id);
+        }
+
+        [TestMethod]
         public void TestGet()
         {
             IEnumerable<Student> students = _controller.Get();
@@ -47,19 +60,6 @@ namespace StudentsUnitTest
         }
 
         [TestMethod]
-        public void TestPost()
-        {
-            Student newStudent = new Student
-            {
-                Name = "Dennis",
-                Address = "Copenhagen",
-                Semester = 4
-            };
-            Student stud = _controller.Post(newStudent);
-            Assert.AreEqual(4, stud.Id);
-        }
-
-        [TestMethod]
         public void TestPut()
         {
             Student newStudent = new Student
@@ -72,6 +72,9 @@ namespace StudentsUnitTest
             Assert.AreEqual("Dennis", stud.Name);
             Student s2 = _controller.Get(2);
             Assert.AreEqual("Dennis", s2.Name);
+
+            Student s = _controller.Put(100, newStudent);
+            Assert.IsNull(s);
         }
     }
 }
